@@ -9,4 +9,10 @@ describe(Patient) do
       expect(patient.doctor_id).to(eq(nil))
     end
   end
+
+  describe('.all') do
+    it('is empty at first') do
+      expect(Patient.all).to(eq([]))
+    end
+  end
 end
