@@ -24,15 +24,25 @@ describe('viewing all of the doctors', {:type => :feature}) do
   end
 end
 
-describe('viewing one doctor to add a patient', {:type => :feature}) do
-  it('allows a user to view a particular doctor and add a patient to that doctor') do
+describe('adding a patient to a doctor', {:type => :feature}) do
+  it('allows a user to add a patient to a doctor') do
     doctor = Doctor.new({:name => 'Dr. Bob Smith', :specialty => "cardiology"})
-    patient = Patient.new({:name => "Kenny", :birthday => "1988-06-29", :doctor_id => doctor.id()})
-    doctor.save()
-    visit('/doctors')
-    click_link(doctor.name())
-    expect(page).to have_content(patient.name())
+    doctor.save
+    visit('/doctors/#{doctor.id()}')
+    fill_in("Name", {:with => "Kenny"})
+    fill_in("Birthday", {:with => "1988-09-29"})
+    click_button("Add Patient")
+    expect(page).to have_content("Success!")
   end
 end
 
-  
+# describe('viewing one doctor to add a patient', {:type => :feature}) do
+#   it('allows a user to view a particular doctor and add a patient to that doctor') do
+#     doctor = Doctor.new({:name => 'Dr. Bob Smith', :specialty => "cardiology"})
+#     patient = Patient.new({:name => "Kenny", :birthday => "1988-06-29", :doctor_id => doctor.id()})
+#     doctor.save()
+#     visit('/doctors')
+#     click_link(doctor.name())
+#     expect(page).to have_content(patient.name())
+#   end
+# end

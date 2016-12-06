@@ -36,9 +36,21 @@ describe(Doctor) do
     it("returns a doctor by its ID") do
       doctor = Doctor.new({:name => "Dr. Who", :specialty => "cardiology", :id => nil})
       doctor.save()
-      doctor2 = Doctor.new({:name => "Dr. Smith", :specialty => "pediatris", :id => nil})
+      doctor2 = Doctor.new({:name => "Dr. Smith", :specialty => "pediatrics", :id => nil})
       doctor2.save()
       expect(Doctor.find(doctor2.id())).to(eq(doctor2))
+    end
+  end
+
+  describe("#patients") do
+    it("returns an array of patients for that doctor") do
+      doctor = Doctor.new({:name => "Dr. Smith", :specialty => "pediatrics", :id => nil})
+      doctor.save()
+      new_patient = Patient.new({:name => "Kenny", :birthday => "1988-06-19", :doctor_id => doctor.id()})
+      new_patient.save()
+      new_patient2 = Patient.new({:name => "Sarah", :birthday => "1988-06-19", :doctor_id => doctor.id()})
+      new_patient2.save()
+      expect(doctor.patients()).to(eq([new_patient, new_patient2]))
     end
   end
 end
