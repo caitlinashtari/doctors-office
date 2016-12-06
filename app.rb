@@ -26,3 +26,7 @@ get('/doctors') do
   @doctors = Doctor.all()
   erb(:doctors)
 end
+
+# get('/doctors/:id') do
+#
+# end
