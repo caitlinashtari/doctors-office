@@ -3,16 +3,31 @@ require('spec_helper')
 describe(Patient) do
   describe("#initialize") do
     it('it tells you its name') do
-      patient = Patient.new({:name => "Kenny", :birthday => '1988-06-29', :doctor_id => nil })
+      patient = Patient.new({:name => "Kenny", :birthday => '1988-06-29', :doctor_id => 1 })
       expect(patient.name).to(eq("Kenny"))
       expect(patient.birthday).to(eq('1988-06-29'))
-      expect(patient.doctor_id).to(eq(nil))
+      expect(patient.doctor_id).to(eq(1))
     end
   end
 
   describe('.all') do
     it('is empty at first') do
       expect(Patient.all).to(eq([]))
+    end
+  end
+  describe("#save") do
+    it('adds a patient to the array of saved patients') do
+      patient1 = Patient.new({:name => "Kenny", :birthday => '1988-06-29', :doctor_id => 1 })
+      patient1.save()
+      expect(Patient.all()).to(eq([patient1]))
+    end
+  end
+
+  describe("#==") do
+    it('is the same patient if it has the same name and doctor ID') do
+      patient1 = Patient.new({:name => "Kenny", :birthday => '1988-06-29', :doctor_id => 1 })
+      patient2 = Patient.new({:name => "Kenny", :birthday => '1988-06-29', :doctor_id => 1 })
+      expect(patient1).to(eq(patient2))
     end
   end
 end
