@@ -15,4 +15,20 @@ describe(Doctor) do
       expect(Doctor.all()).to(eq([]))
     end
   end
+
+  describe("#save") do
+    it('lets you save doctors to the database') do
+      doctor = Doctor.new({:name => "Dr. Who", :specialty => "cardiology", :id => nil})
+      doctor.save
+      expect(Doctor.all()).to(eq([doctor]))
+    end
+  end
+
+  describe("#==") do
+    it("is the same doctor if it has the same name") do
+      doctor = Doctor.new({:name => "Dr. Who", :specialty => "cardiology", :id => nil})
+      doctor2 = Doctor.new({:name => "Dr. Who", :specialty => "cardiology", :id => nil})
+      expect(doctor).to(eq(doctor2))
+    end
+  end
 end
