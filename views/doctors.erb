@@ -1,0 +1,10 @@
+<h1>All Doctors</h1>
+
+<ul>
+  <% @doctors.each do |doctor| %>
+  <li><a href="/doctors/<%= doctor.id %>"><%= doctor.name %>, <%= doctor.specialty %></a></li>
+  <% end %>
+</ul>
+
+<a href="javascript:history.back()">Go Back</a>
+<a href="/">Return Home</a>  

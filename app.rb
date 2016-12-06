@@ -14,3 +14,15 @@ end
 get('/doctors/new') do
   erb(:doctor_form)
 end
+
+post('/doctors') do
+  name = params.fetch('name')
+  specialty = params.fetch('specialty')
+  @doctor = Doctor.new({:name => name, :specialty => specialty}).save()
+  erb(:success)
+end
+
+get('/doctors') do
+  @doctors = Doctor.all()
+  erb(:doctors)
+end
