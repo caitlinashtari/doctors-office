@@ -8,6 +8,7 @@ require('pg')
 DB = PG.connect({:dbname => "doctors_office"})
 
 get('/') do
+  @doctors = Doctor.all()
   erb(:index)
 end
 
@@ -22,22 +23,12 @@ post('/doctors') do
   erb(:success)
 end
 
-get('/doctors') do
-  @doctors = Doctor.all()
-  erb(:doctors)
-end
-
 get('/doctors/:id') do
  @doctor = Doctor.find(params.fetch('id').to_i)
- # @patients = @doctor.patients()
  erb(:doctor)
 end
 
-get('/doctors/:id/new_patient') do
-  id = params.fetch('id')
-  @doctor = Doctor.find(id)
-  erb(:doctor)
-end
+
 
 post('/doctors/:id') do
   name = params.fetch("name")

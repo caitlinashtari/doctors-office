@@ -6,43 +6,26 @@ set(:show_exceptions, false)
 describe('adding a new doctor', {:type => :feature}) do
   it('allows a user to add a new doctor and view all doctors') do
     visit('/')
-    click_link('Add A New Doctor')
+    click_link('Add Doctor')
     fill_in('name', :with => 'Dr. Who')
     fill_in('specialty', :with => 'Cardiology')
     click_button('Add Doctor')
-    expect(page).to have_content('Success!')
+    click_link('Return Home')
+    expect(page).to have_content("Dr. Who")
   end
 end
 
-describe('viewing all of the doctors', {:type => :feature}) do
-  it('allows a user to see all of the doctors that have been created') do
-    doctor = Doctor.new({:name => 'Dr. Bob Smith', :specialty => "cardiology"})
-    doctor.save()
+describe('viewing one doctor to add a patient', {:type => :feature}) do
+  it('allows a user to view a particular doctor and add a patient to that doctor') do
+    visit('/doctors/new')
+    fill_in('name', :with => 'Dr. Who')
+    fill_in('specialty', :with => 'Cardiology')
+    click_button('Add Doctor')
     visit('/')
-    click_link('View All Doctors')
-    expect(page).to have_content(doctor.name)
+    click_link('Dr. Who, Cardiology')
+    fill_in('name', :with => 'Cat')
+    fill_in('birthday', :with => '1988-06-16')
+    click_button('Add patient')
+    expect(page).to have_content("Cat")
   end
 end
-
-describe('adding a patient to a doctor', {:type => :feature}) do
-  it('allows a user to add a patient to a doctor') do
-    doctor = Doctor.new({:name => 'Dr. Bob Smith', :specialty => "cardiology"})
-    doctor.save
-    visit('/doctors/#{doctor.id()}')
-    fill_in("Name", {:with => "Kenny"})
-    fill_in("Birthday", {:with => "1988-09-29"})
-    click_button("Add Patient")
-    expect(page).to have_content("Success!")
-  end
-end
-
-# describe('viewing one doctor to add a patient', {:type => :feature}) do
-#   it('allows a user to view a particular doctor and add a patient to that doctor') do
-#     doctor = Doctor.new({:name => 'Dr. Bob Smith', :specialty => "cardiology"})
-#     patient = Patient.new({:name => "Kenny", :birthday => "1988-06-29", :doctor_id => doctor.id()})
-#     doctor.save()
-#     visit('/doctors')
-#     click_link(doctor.name())
-#     expect(page).to have_content(patient.name())
-#   end
-# end
